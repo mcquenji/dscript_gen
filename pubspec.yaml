@@ -1,0 +1,20 @@
+name: dscript_gen
+description: A source generator for [dscript](https://pub.dev/packages/dscript_dart). Use together with [dscript_annotations](https://pub.dev/packages/dscript_annotations).
+
+version: 1.0.0
+repository: https://github.com/mcquenji/dscript_gen
+
+environment:
+  sdk: ^3.8.1
+
+# Add regular dependencies here.
+dependencies:
+  analyzer: ^7.6.0
+  build: ^3.0.2
+  dscript_annotations: ^1.0.0
+  source_gen: ^3.1.0
+
+dev_dependencies:
+  build_runner: ^2.7.0
+  lints: ^5.0.0
+  test: ^1.24.0

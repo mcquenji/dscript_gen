@@ -1,0 +1,16 @@
+builders:
+  libBuilder:
+    import: "package:dscript_gen/dscript_gen.dart"
+    builder_factories: ["namespaceBuilder"]
+    auto_apply: dependents
+    build_to: cache
+    applies_builders: ["source_gen|combining_builder"]
+    build_extensions: { "dart": [".namespace.g.part"] }
+
+targets:
+  $default:
+    builders:
+      dscript_gen|namespaceBuilder:
+        enabled: true
+        generate_for:
+          - lib/**.dart
