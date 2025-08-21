@@ -1,5 +1,5 @@
 name: dscript_gen
-description: A source generator for [dscript](https://pub.dev/packages/dscript_dart). Use together with [dscript_annotations](https://pub.dev/packages/dscript_annotations).
+description: A source generator for dscript. Use together with dscript_annotations.
 
 version: 1.0.0
 repository: https://github.com/mcquenji/dscript_gen
