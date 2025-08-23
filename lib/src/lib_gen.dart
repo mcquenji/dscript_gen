@@ -17,6 +17,7 @@
 // -----------------------------------------------------------------------------
 
 import 'package:analyzer/dart/element/element2.dart';
+import 'package:analyzer/dart/element/nullability_suffix.dart';
 import 'package:analyzer/dart/element/type.dart';
 import 'package:build/build.dart';
 import 'package:source_gen/source_gen.dart';
@@ -81,7 +82,46 @@ class DscriptNamespace extends GeneratorForAnnotation<Namespace> {
       );
     }
 
+    final knownType = convertKnownType(type);
+
+    if (knownType != null) {
+      final nullable = type.nullabilitySuffix == NullabilitySuffix.question;
+
+      return '$knownType${nullable ? '.asNullable()' : ''}';
+    }
+
     return stringToDslType(type.toString());
+  }
+
+  /// Converts the given Dart type to a known Dscript type representation.
+  /// For example, it converts `int` to `PrimitiveType.INT`.
+  ///
+  /// Returns a string representation of the Dscript type, or null if the type
+  /// is not recognized.
+  String? convertKnownType(DartType type) {
+    if (type is DynamicType || type.isDartCoreObject) {
+      return 'const DynamicType()';
+    }
+
+    switch (type) {
+      case DartType(isDartCoreObject: true):
+      case DynamicType():
+        return 'const DynamicType()';
+      case DartType(isDartCoreBool: true):
+      case DartType(isDartCoreNull: true):
+      case DartType(isDartCoreInt: true):
+      case DartType(isDartCoreDouble: true):
+      case DartType(isDartCoreNum: true):
+      case DartType(isDartCoreString: true):
+        return 'PrimitiveType.${type.toString().toUpperCase()}';
+      case ParameterizedType(isDartCoreList: true):
+        return 'ListType(elementType: ${toDslType(type.typeArguments.first)})';
+
+      case ParameterizedType(isDartCoreMap: true):
+        return 'MapType(keyType: ${toDslType(type.typeArguments.first)}, valueType: ${toDslType(type.typeArguments.last)})';
+      default:
+        return null;
+    }
   }
 
   /// Wraps a raw type name string as a `$Type` in the DSL.
