@@ -1,7 +1,7 @@
 name: dscript_gen
 description: A source generator for dscript. Use together with dscript_annotations.
 
-version: 1.0.0
+version: 1.1.0
 repository: https://github.com/mcquenji/dscript_gen
 
 environment:
