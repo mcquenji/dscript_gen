@@ -113,7 +113,7 @@ class DscriptNamespace extends GeneratorForAnnotation<Namespace> {
       case DartType(isDartCoreDouble: true):
       case DartType(isDartCoreNum: true):
       case DartType(isDartCoreString: true):
-        return 'PrimitiveType.${type.toString().toUpperCase()}';
+        return 'PrimitiveType.${type.toString().toUpperCase().replaceAll('?', '')}';
       case ParameterizedType(isDartCoreList: true):
         return 'ListType(elementType: ${toDslType(type.typeArguments.first)})';
 
